@@ -1,11 +1,12 @@
 import tkinter as tk  # jo kisi ko nahi aata...🤣
+import pygame
 from tkinter import messagebox #tried something let's see if it works
 
 
 class NPC:                  # Base Class for angels and demons
     side=0
 
-    def __init__(self):
+    def __init__(self, name : str):
         self.name = name
         self.side=0         # 0 represents left and 1 represents right. The initial position is left for any race 
 
@@ -38,7 +39,8 @@ class Boat:
             self.right.side = 1 - self.right.side
 
     def load_NPC(self, selectedNPC : NPC):
-        if self.left != None and self.right != None:
+
+        if self.right != "NULL" and self.left != "NULL":
             print("The boat is at full capacity")
             return
         elif self.left != "NULL":
@@ -63,6 +65,7 @@ class Game:
         
         self.boat = Boat()
         self.angels = [Angel(f"Angel {i+1}") for i in range(3)]
+        print(self.angels)
         self.demons = [Demon(f"Demon {i+1}") for i in range(3)]
         
         self.create_widgets()
@@ -135,5 +138,16 @@ class Game:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    game = Game(root)
-    root.mainloop()
+    # game = Game(root)
+    # root.mainloop()  # deprecated, change of game plan, switching to pygame
+    screen_width = root.winfo_screenwidth()
+    screen_height= root.winfo_screenheight()
+
+    pygame.init()
+    screen = pygame.display.set_mode((screen_width,screen_height)) # created screen
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
